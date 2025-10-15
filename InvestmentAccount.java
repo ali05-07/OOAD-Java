@@ -1,19 +1,17 @@
+package model;
+
 public class InvestmentAccount extends Account implements InterestBearing {
-    private double interestRate = 0.05; // 5% as per your diagram
+    private double interestRate = 0.05; // 5% as per assignment
     private double minimumBalance = 500.0;
     
-    public InvestmentAccount(String accountNumber, double balance, String branch, Customer customer) {
-        super(accountNumber, balance, branch, customer);
-        if (balance < minimumBalance) {
-            throw new IllegalArgumentException("Minimum balance for Investment account is " + minimumBalance);
-        }
+    public InvestmentAccount(String accountNumber, double balance, String branch) {
+        super(accountNumber, balance, branch);
     }
     
     @Override
     public boolean withdraw(double amount) {
-        if (validateTransaction(amount)) {
+        if (validateTransaction(amount) && (balance - amount) >= minimumBalance) {
             balance -= amount;
-            transactions.add(new Transaction("WITHDRAWAL", amount, balance));
             return true;
         }
         return false;
@@ -24,9 +22,19 @@ public class InvestmentAccount extends Account implements InterestBearing {
         return balance * interestRate;
     }
     
+    @Override
     public void applyInterest() {
         double interest = calculateInterest();
-        balance += interest;
-        transactions.add(new Transaction("INTEREST", interest, balance));
+        deposit(interest);
     }
+    
+    @Override
+    public String getAccountType() {
+        return "INVESTMENT";
+    }
+    
+    public double getInterestRate() { return interestRate; }
+    public double getMinimumBalance() { return minimumBalance; }
 }
+
+
