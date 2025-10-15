@@ -1,57 +1,39 @@
-import java.util.ArrayList;
-import java.util.List;
+package model;
 
 public abstract class Account {
     protected String accountNumber;
     protected double balance;
     protected String branch;
-    protected Customer customer;
-    protected List<Transaction> transactions;
+    protected boolean isActive;
     
-    public Account(String accountNumber, double balance, String branch, Customer customer) {
+    public Account(String accountNumber, double balance, String branch) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.branch = branch;
-        this.customer = customer;
-        this.transactions = new ArrayList<>();
+        this.isActive = true;
     }
     
-    // Public methods from your diagram
+    // Abstract methods
+    public abstract boolean withdraw(double amount);
+    public abstract String getAccountType();
+    
+    // Concrete methods
     public boolean deposit(double amount) {
-        if (amount > 0) {
+        if (amount > 0 && isActive) {
             balance += amount;
-            // Record transaction
-            transactions.add(new Transaction("DEPOSIT", amount, balance));
             return true;
         }
         return false;
     }
     
-    public abstract boolean withdraw(double amount);
-    
-    public double getBalance() {
-        return balance;
-    }
-    
-    // Protected validation method from your diagram
     protected boolean validateTransaction(double amount) {
-        return amount > 0 && amount <= balance;
+        return amount > 0 && isActive;
     }
     
-    // Static methods from your diagram (these would be in BankingService)
-    public static Account openAccount() {
-        // This would be implemented in BankingService
-        throw new UnsupportedOperationException("Use BankingService to open accounts");
-    }
-    
-    public static boolean closeAccount(String accountNumber) {
-        // This would be implemented in BankingService
-        throw new UnsupportedOperationException("Use BankingService to close accounts");
-    }
-    
-    // Getters
+    // Getters and setters
     public String getAccountNumber() { return accountNumber; }
+    public double getBalance() { return balance; }
     public String getBranch() { return branch; }
-    public Customer getCustomer() { return customer; }
-    public List<Transaction> getTransactions() { return new ArrayList<>(transactions); }
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 }
