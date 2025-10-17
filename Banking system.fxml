@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<TabPane fx:id="mainTabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BankingController">
+  
+  <tabs>
+    <Tab fx:id="loginTab" text="Login">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <VBox alignment="CENTER" layoutX="300.0" layoutY="100.0" prefHeight="400.0" prefWidth="300.0" spacing="20.0">
+              <children>
+                <Label text="Banking System Login">
+                  <font>
+                    <Font name="System Bold" size="24.0" />
+                  </font>
+                </Label>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                  <children>
+                    <Label text="Username" />
+                    <TextField fx:id="usernameField" promptText="Enter username" />
+                    <Label text="Password" />
+                    <PasswordField fx:id="passwordField" promptText="Enter password" />
+                  </children>
+                </VBox>
+                <Button mnemonicParsing="false" onAction="#handleLogin" prefHeight="35.0" prefWidth="200.0" text="LOGIN" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;">
+                  <font>
+                    <Font name="System Bold" size="14.0" />
+                  </font>
+                </Button>
+                <Label fx:id="loginErrorLabel" textFill="#e41616" />
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+      </content>
+    </Tab>
+    
+    <Tab fx:id="registerTab" text="Register">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="631.0" prefWidth="774.0">
+          <children>
+            <ScrollPane fitToWidth="true" layoutX="5.0" layoutY="21.0" prefHeight="609.0" prefWidth="850.0">
+              <content>
+                <VBox spacing="15.0" style="-fx-padding: 20;">
+                  <children>
+                    <TextField fx:id="regUsernameField" promptText="Choose Username"/>
+                    <TextField fx:id="regPasswordField" promptText="Choose Password"/>
+                    <Label text="Customer Registration">
+                      <font>
+                        <Font name="System Bold" size="18.0" />
+                      </font>
+                    </Label>
+                    <Label text="Customer type:" />
+                    <HBox spacing="20.0">
+                      <children>
+                        <RadioButton fx:id="individualRadio" mnemonicParsing="false" onAction="#onCustomerTypeChange" text="Individual" />
+                        <RadioButton fx:id="companyRadio" mnemonicParsing="false" onAction="#onCustomerTypeChange" text="Company" />
+                      </children>
+                    </HBox>
+                    
+                    <VBox fx:id="individualFields" spacing="10.0">
+                      <children>
+                        <Label text="First Name" />
+                        <TextField fx:id="firstNameField" promptText="Enter first name" />
+                        <Label text="Last Name" />
+                        <TextField fx:id="lastNameField" promptText="Enter last name" />
+                        <Label text="National ID" />
+                        <TextField fx:id="nationalIdField" promptText="Enter national ID" />
+                        <Label text="Address" />
+                        <TextField fx:id="addressField" promptText="Enter address" />
+                        <Label text="Phone Number" />
+                        <TextField fx:id="phoneField" promptText="Enter phone number" />
+                      </children>
+                    </VBox>
+                    
+                    <VBox fx:id="companyFields" managed="false" spacing="10.0" visible="false">
+                      <children>
+                        <Label text="Company Name" />
+                        <TextField fx:id="companyNameField" promptText="Enter company name" />
+                        <Label text="Registration Number" />
+                        <TextField fx:id="regNumberField" promptText="Enter registration number" />
+                        <Label text="Contact Person" />
+                        <TextField fx:id="contactPersonField" promptText="Enter contact person" />
+                        <Label text="Company Address" />
+                        <TextField fx:id="companyAddressField" promptText="Enter company address" />
+                      </children>
+                    </VBox>
+                    
+                    <Button mnemonicParsing="false" onAction="#handleRegister" prefHeight="35.0" prefWidth="200.0" text="CREATE CUSTOMER" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Label fx:id="registerMessageLabel" textFill="#20f27b" />
+                  </children>
+                </VBox>
+              </content>
+            </ScrollPane>
+          </children>
+        </AnchorPane>
+      </content>
+    </Tab>
+    
+    <Tab fx:id="accountsTab" text="Accounts">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <SplitPane dividerPositions="0.3" layoutX="7.0" layoutY="14.0" prefHeight="600.0" prefWidth="880.0">
+              <items>
+                <VBox spacing="10.0" style="-fx-padding: 15;">
+                  <children>
+                    <Label text="MY ACCOUNTS">
+                      <font>
+                        <Font name="System Bold" size="15.0" />
+                      </font>
+                    </Label>
+                    <ListView fx:id="accountListView" prefHeight="300.0" prefWidth="250.0" />
+                    <Label fx:id="totalBalanceLabel" text="Total Balance: P0.00">
+                      <font>
+                        <Font name="System Bold" size="13.0" />
+                      </font>
+                    </Label>
+                    <VBox spacing="10.0">
+                      <children>
+                        <Label text="Account details:" />
+                        <Label fx:id="selectedAccountLabel" text="Select an account from list" />
+                        <Label fx:id="accountBalanceLabel" text="Balance: P0.00" />
+                        <Button mnemonicParsing="false" onAction="#handleCloseAccount" text="CLOSE ACCOUNT" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" />
+                      </children>
+                    </VBox>
+                  </children>
+                </VBox>
+                
+                <VBox spacing="15.0" style="-fx-padding: 15;">
+                  <children>
+                    <Label text="Account Management">
+                      <font>
+                        <Font name="System Bold" size="16.0" />
+                      </font>
+                    </Label>
+                    <VBox spacing="10.0">
+                      <children>
+                        <Label text="Open New Account">
+                          <font>
+                            <Font name="System Bold" size="12.0" />
+                          </font>
+                        </Label>
+                        <HBox spacing="10.0">
+                          <children>
+                            <ComboBox fx:id="accountTypeCombo" onAction="#onAccountTypeSelected" prefWidth="150.0" promptText="Select Type" />
+                            <TextField fx:id="initialDepositField" promptText="Initial Deposit" />
+                            <Button mnemonicParsing="false" onAction="#handleOpenAccount" text="OPEN" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;">
+                              <font>
+                                <Font name="System Bold" size="13.0" />
+                              </font>
+                            </Button>
+                          </children>
+                        </HBox>
+                        <Label fx:id="minBalanceLabel" text="Minimum Deposit: P0.00" />
+                      </children>
+                    </VBox>
+                  </children>
+                </VBox>
+              </items>
+            </SplitPane>
+          </children>
+        </AnchorPane>
+      </content>
+    </Tab>
+    
+    <Tab fx:id="transactionsTab" text="Transactions">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <HBox layoutX="20.0" layoutY="20.0" prefHeight="400.0" prefWidth="850.0" spacing="30.0">
+              <children>
+                <VBox prefHeight="400.0" prefWidth="400.0" spacing="15.0">
+                  <children>
+                    <Label text="DEPOSIT MONEY" />
+                    <Label text="Select Account:" />
+                    <ComboBox fx:id="depositAccountCombo" prefWidth="300.0" />
+                    <Label text="Amount:" />
+                    <TextField fx:id="depositAmountField" prefHeight="25.0" prefWidth="300.0" promptText="Enter amount" />
+                    <Label text="Current Balance:" />
+                    <Label fx:id="depositBalanceLabel" text="P0.00" />
+                    <Button mnemonicParsing="false" onAction="#handleDeposit" text="CONFIRM DEPOSIT" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Label fx:id="depositMessageLabel" textFill="#19c91c" />
+                  </children>
+                </VBox>
+                
+                <VBox prefHeight="400.0" prefWidth="400.0" spacing="15.0">
+                  <children>
+                    <Label text="WITHDRAW MONEY" />
+                    <Label text="Select Account:" />
+                    <ComboBox fx:id="withdrawAccountCombo" onAction="#onWithdrawAccountSelected" prefWidth="300.0" />
+                    <Label text="Amount:" />
+                    <TextField fx:id="withdrawAccountField" promptText="Enter Amount" />
+                    <Label text="Current Balance:" />
+                    <Label fx:id="withdrawBalanceLabel" text="P0.00" />
+                    <Button mnemonicParsing="false" onAction="#handleWithdraw" text="CONFIRM WITHDRAWAL" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Label fx:id="withdrawMessageLabel" />
+                  </children>
+                </VBox>
+              </children>
+            </HBox>
+          </children>
+        </AnchorPane>
+      </content>
+    </Tab>
+    
+    <Tab fx:id="historyTab" text="Transactions History">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <VBox layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="850.0" spacing="15.0">
+              <children>
+                <HBox spacing="15.0">
+                  <children>
+                    <Label text="From:" />
+                    <DatePicker fx:id="startDatePicker" />
+                    <Label text="To:" />
+                    <DatePicker fx:id="endDatePicker" />
+                    <Button fx:id="generateReportButton" mnemonicParsing="false" onAction="#handleGenerateReport" text="GENERATE REPORT" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Button fx:id="refreshHistoryButton" mnemonicParsing="false" onAction="#handleRefreshHistory" text="REFRESH" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Button fx:id="deleteTransactionButton" mnemonicParsing="false" onAction="#handleDeleteTransactions" text="DELETE SELECTED" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" />
+                  </children>
+                </HBox>
+                
+                <TableView fx:id="transactionsTable" prefHeight="400.0" prefWidth="800.0">
+                  <columns>
+                    <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Date">
+                      <cellValueFactory>
+                        <PropertyValueFactory property="date" />
+                      </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="typeColumn" prefWidth="100.0" text="Type">
+                      <cellValueFactory>
+                        <PropertyValueFactory property="type" />
+                      </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description">
+                      <cellValueFactory>
+                        <PropertyValueFactory property="description" />
+                      </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="amountColumn" prefWidth="100.0" text="Amount">
+                      <cellValueFactory>
+                        <PropertyValueFactory property="amount" />
+                      </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="balanceColumn" prefWidth="100.0" text="Balance">
+                      <cellValueFactory>
+                        <PropertyValueFactory property="balance" />
+                      </cellValueFactory>
+                    </TableColumn>
+                  </columns>
+                </TableView>
+                
+                <HBox spacing="30.0">
+                  <children>
+                    <Label fx:id="totalInterestLabel" text="Total Interest Earned: P0.00" />
+                    <Label fx:id="totalTransactionsLabel" text="Total Transactions: 0" />
+                  </children>
+                </HBox>
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
