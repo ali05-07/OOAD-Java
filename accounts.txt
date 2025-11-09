@@ -1,0 +1,3 @@
+ACC3|Savings Account|590.0|Main Branch|lucy
+ACC2|Investment Account|300.0|Main Branch|lucy
+ACC3|Cheque Account|1900.0|Main Branch|lucy

@@ -1,32 +1,27 @@
-package model;
-
 public class ChequeAccount extends Account {
-    private String employerName;
-    private String employerAddress;
-    
-    public ChequeAccount(String accountNumber, double balance, String branch, 
-                        String employerName, String employerAddress) {
+    public ChequeAccount(String accountNumber, double balance, String branch) {
         super(accountNumber, balance, branch);
-        this.employerName = employerName;
-        this.employerAddress = employerAddress;
     }
-    
+
+    @Override
+    public String getAccountType() { return "Cheque Account"; }
+
+    @Override
+    public boolean deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean withdraw(double amount) {
-        if (validateTransaction(amount) && amount <= balance) {
+        // Cheque account might allow overdraft
+        if (amount > 0) {
             balance -= amount;
             return true;
         }
         return false;
     }
-    
-    @Override
-    public String getAccountType() {
-        return "CHEQUE";
-    }
-    
-    // Getters
-    public String getEmployerName() { return employerName; }
-    public String getEmployerAddress() { return employerAddress; }
 }
-
